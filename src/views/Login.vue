@@ -11,6 +11,13 @@
           <LoginCard v-if="showSignIn"/>
           <SignUpCard v-if="showSignUp" />
           <PasswordResetCard v-if="showReset" />
+          <div align="center">
+            <router-link class="navbtn" to="Home">
+                <v-btn class="ma-2" tile outlined color="success">
+                    <v-icon left>mdi-home</v-icon> Home
+                </v-btn>
+            </router-link>
+            </div>
         </v-col>
     </v-row>
   </v-container>
@@ -58,5 +65,7 @@
 </script>
 
 <style lang="scss" scoped>
-
+.navbtn{
+  text-decoration: none;
+}
 </style>

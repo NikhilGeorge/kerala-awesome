@@ -4,7 +4,16 @@ const fb = require('../firebaseConfig.js')
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+// handle page reload
+fb.auth.onAuthStateChanged( user => {
+   // ensure user is set even if the page is refreshed
+  if(user){
+      store.commit('setCurrentUser', user)
+      store.dispatch('fetchUserProfile')
+  }
+})
+
+const store = new Vuex.Store({
   state: {
     currentUser: null,
     userProfile: {}
@@ -34,3 +43,5 @@ export default new Vuex.Store({
   modules: {
   }
 })
+
+export default store
