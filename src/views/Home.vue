@@ -2,7 +2,7 @@
 <v-content>
  <v-container fill-height fluid>
     <v-row justify="center" align="center">
-        <v-col cols="12" sm="8" md="4">
+        <v-col cols="12" sm="8" md="8">
         
 
         <PostCard />

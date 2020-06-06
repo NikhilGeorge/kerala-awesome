@@ -3,9 +3,13 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify';
+import VueYouTubeEmbed from 'vue-youtube-embed'
+
+
 const fb = require('./firebaseConfig.js')
 
 Vue.config.productionTip = false
+Vue.use(VueYouTubeEmbed)
 
 // handle page reloads
 let app
