@@ -36,11 +36,10 @@
                         let user = result.user
                         this.$store.commit('setCurrentUser', user)
                         //create a user in userCollections table
-                        fb.usersCollection.doc(user.uid).set({
-                            name: this.name
-                        })
+                        user.updateProfile({
+                            displayName: this.name
+                        })  
                             .then(() => {
-                                this.$store.dispatch('fetchUserProfile')
                                 this.inProgress = false
                                 this.$router.push('/')
                             }).catch((err) => {

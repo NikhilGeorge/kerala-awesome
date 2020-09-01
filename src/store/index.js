@@ -9,35 +9,21 @@ fb.auth.onAuthStateChanged( user => {
    // ensure user is set even if the page is refreshed
   if(user){
       store.commit('setCurrentUser', user)
-      store.dispatch('fetchUserProfile')
   }
 })
 
 const store = new Vuex.Store({
   state: {
     currentUser: null,
-    userProfile: {}
   },
   mutations: {
     setCurrentUser(state, val) {
       state.currentUser = val
     },
-    setUserProfile(state, val){
-      state.userProfile = val
-    }
   },
   actions: {
-    fetchUserProfile({commit, state}) {
-      fb.usersCollection.doc(state.currentUser.uid).get()
-        .then((result) => {
-          commit('setUserProfile', result.data())
-        }).catch((err) => {
-          console.log(err.message);
-        });
-    },
     clearData({commit}){
       commit('setCurrentUser', null)
-      commit('setUserProfile', {})
     }
   },
   modules: {

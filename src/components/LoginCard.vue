@@ -50,7 +50,6 @@
                     console.log('Success');
                     console.log(result.user);
                     this.$store.commit('setCurrentUser', result.user)
-                    this.$store.dispatch('fetchUserProfile')
                     this.inProgress = false
                     this.$router.push('/admin')
 

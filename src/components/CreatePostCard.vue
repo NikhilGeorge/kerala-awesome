@@ -13,7 +13,7 @@
             <v-form @submit.prevent>
                 <v-textarea v-if="postType === 'text'" label="Kerala is awesome because ... " name="post" prepend-icon="document" v-model="content" ></v-textarea>
                 <v-text-field v-if="postType === 'video'" label="Youtube Link" name="video" prepend-icon="camera" type="text" v-model="video" ></v-text-field>
-                 <v-text-field v-if="postType === 'link'" label="URL" name="link" prepend-icon="link" type="text" v-model="link" ></v-text-field>
+                <v-text-field v-if="postType === 'link'" label="URL" name="link" prepend-icon="link" type="text" v-model="link" ></v-text-field>
             </v-form>
           </v-card-text>
           <v-card-actions>
@@ -22,6 +22,7 @@
           </v-card-actions>
           <v-alert v-if="errorMsg.length" dismissible  type="error">     {{ errorMsg }}  </v-alert>
           <v-alert v-if="successMsg.length" dismissible  type="success">     {{ successMsg }}  </v-alert>
+          <v-snackbar v-model="snackbar" v-if="successMsg.length" :timeout="timeout" > {{ successMsg }} <v-btn color="blue" text @click="snackbar = false" > Close </v-btn> </v-snackbar>
     </v-card>
  </div>
 </template>
@@ -38,7 +39,8 @@
                 video: '',
                 link: '',
                 successMsg: '',
-                postType: 'text'
+                postType: 'text',
+                snackbar: true
 
             }
         },

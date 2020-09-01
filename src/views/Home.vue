@@ -3,8 +3,9 @@
  <v-container fill-height fluid>
     <v-row justify="center" align="center">
         <v-col cols="12" sm="8" md="8">
-        
-
+        <div align="center">
+            <h2 class="logo">Awesome Kerala</h2>
+        </div>
         <PostCard />
         <WelcomeCard />
     </v-col>
@@ -27,5 +28,8 @@ import WelcomeCard from '@/components/WelcomeCard'
 </script>
 
 <style lang="scss" scoped>
+.logo{
+    color: red
+}
 
 </style>

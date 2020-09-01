@@ -1,7 +1,7 @@
 <template>
 <div v-if="currentUser" align="center">
      
-Logged in as {{ currentUser.email }} ( 
+Logged in as {{ currentUser.displayName }} ( 
     <a @click="logout">logout</a>
 )
     

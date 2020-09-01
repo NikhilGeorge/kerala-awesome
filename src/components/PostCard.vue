@@ -1,63 +1,42 @@
 <template>
 <div>
-  
-  <v-card v-if="post.postType == 'text'" class="mx-auto" color="#357C93" dark max-width="600" >
-       <v-progress-linear v-if="isLoading" indeterminate height="10" color="yellow darken-2" ></v-progress-linear>
-       <v-img
-        src="https://source.unsplash.com/collection/6778948"
-        height="194"
-      ></v-img>
-      <v-card-title> <v-icon large left > mdi-twitter </v-icon> <span class="title font-weight-light">Kerala is awesome because ... </span> </v-card-title>
-       <v-card-text class="headline font-weight-bold"> {{ post.content}} </v-card-text>
-  
-      <v-card-actions>
-        <v-list-item class="grow">
-            <v-icon class="mr-1">mdi-account-circle-outline</v-icon>
-            <v-list-item-content>
-            <v-list-item-title>{{ post.userName }}</v-list-item-title>
-          </v-list-item-content>
-  
-          <v-row
-            align="center"
-            justify="end"
-          >
-            <v-icon class="mr-1">mdi-clock</v-icon>
-            <span class="subheading mr-2">{{ post.createdOn | formatDate }} </span>
-            <span class="mr-1">·</span>
-            <a @click="likePost()">
-              <v-icon v-if="postLiked" class="mr-1">mdi-heart</v-icon>
-              <v-icon v-if="!postLiked" class="mr-1">mdi-heart-outline</v-icon>
-            </a>
-            <span class="subheading mr-2">{{ post.likes }} </span>
-            <span class="mr-1">·</span>
-            <v-icon class="mr-1">mdi-share-variant</v-icon>
-            <span class="subheading">45</span>
-          </v-row>
-        </v-list-item>
-      </v-card-actions>
-  </v-card>
-
-   <v-card v-if="post.postType == 'video'" class="mx-auto" color="#357C93" dark max-width="600" >
+  <v-card class="mx-auto" color="#357C93" dark max-width="600" >
+      <v-progress-linear v-if="isLoading"  indeterminate height="10" color="yellow darken-2" ></v-progress-linear>
       <v-progress-linear v-if="!isLoading" height="10" color="yellow darken-2" ></v-progress-linear>
-      <v-progress-linear v-if="isLoading" indeterminate height="10" color="yellow darken-2" ></v-progress-linear>
-           <v-card-title> <v-icon large left > mdi-twitter </v-icon> <span class="title font-weight-light">Kerala is awesome because ... </span> </v-card-title>
-
-    <div align="center" justify="center"><youtube :video-id="getYoutubeId(post.video)" player-width="550"></youtube> </div>
-  
+      <v-card-title> <v-icon large left > mdi-twitter </v-icon> <span class="title font-weight-light">Kerala is awesome because ... </span> </v-card-title>
+      <div v-if="post.postType == 'text'" >
+        <v-img src="https://source.unsplash.com/collection/6778948" height="194" ></v-img>
+        <v-card-text class="headline font-weight-bold"> {{ post.content}} </v-card-text>
+      </div>
+      <div v-if="post.postType == 'video'">
+        <v-card-text class="headline font-weight-bold">
+          <div align="center" justify="center"><youtube :video-id="getYoutubeId(post.video)" player-width="550"></youtube> </div>
+        </v-card-text>
+      </div>
+      <div v-if="post.postType == 'link'" class="headline font-weight-bold">
+        <link-prevue :url="post.link">
+          <template slot="loading">
+          </template>
+          <template slot-scope="props">
+            <v-img :src="props.img" :alt="props.title"   height="194" ></v-img>
+            <v-card-title> <span class="title font-weight-light">{{props.title}} </span> </v-card-title>
+            <v-card-text> {{props.description}} <a v-bind:href="props.url" class="btn btn-primary">[ Read More ]</a></v-card-text>
+          </template>
+        </link-prevue>
+      </div>
+      <v-divider></v-divider>
       <v-card-actions>
         <v-list-item class="grow">
-            <v-icon class="mr-1">mdi-account-circle-outline</v-icon>
+            <v-icon class="mr-1">mdi-comment-account-outline</v-icon>
             <v-list-item-content>
-            <v-list-item-title>{{ post.userName }}</v-list-item-title>
-          </v-list-item-content>
+            <v-list-item-title>{{ post.userName }} , {{ post.createdOn | formatDate }}</v-list-item-title>
+            </v-list-item-content>
   
           <v-row
             align="center"
             justify="end"
           >
-            <v-icon class="mr-1">mdi-clock</v-icon>
-            <span class="subheading mr-2">{{ post.createdOn | formatDate }} </span>
-            <span class="mr-1">·</span>
+           
             <a @click="likePost()">
               <v-icon v-if="postLiked" class="mr-1">mdi-heart</v-icon>
               <v-icon v-if="!postLiked" class="mr-1">mdi-heart-outline</v-icon>
@@ -69,48 +48,8 @@
           </v-row>
         </v-list-item>
       </v-card-actions>
+
   </v-card>
-
-  <div>
-  <div v-if="post.postType == 'link'">
-     <v-progress-linear v-if="isLoading" indeterminate height="10" color="yellow darken-2" ></v-progress-linear>
-  <link-prevue :url="post.link">
-    <template slot-scope="props">
-      <v-card class="mx-auto" color="#357C93" dark max-width="600" >
-        <v-card-title> <v-icon large left > mdi-twitter </v-icon> <span class="title font-weight-light">Kerala is awesome because ... </span> </v-card-title>
-        <v-img :src="props.img" :alt="props.title"   height="194" ></v-img>
-        <v-card-title> <span class="title font-weight-light">{{props.title}} </span> </v-card-title>
-        <v-card-text> {{props.description}} <a v-bind:href="props.url" class="btn btn-primary">[ Read More ]</a></v-card-text>
-        <v-card-actions>
-          <v-list-item class="grow">
-              <v-icon class="mr-1">mdi-account-circle-outline</v-icon>
-              <v-list-item-content>
-              <v-list-item-title>{{ post.userName }}</v-list-item-title>
-            </v-list-item-content>
-
-            <v-row
-              align="center"
-              justify="end"
-            >
-              <v-icon class="mr-1">mdi-clock</v-icon>
-              <span class="subheading mr-2">{{ post.createdOn | formatDate }} </span>
-              <span class="mr-1">·</span>
-              <a @click="likePost()">
-                <v-icon v-if="postLiked" class="mr-1">mdi-heart</v-icon>
-                <v-icon v-if="!postLiked" class="mr-1">mdi-heart-outline</v-icon>
-              </a>
-              <span class="subheading mr-2">{{ post.likes }} </span>
-              <span class="mr-1">·</span>
-              <v-icon class="mr-1">mdi-share-variant</v-icon>
-              <span class="subheading">45</span>
-            </v-row>
-          </v-list-item>
-        </v-card-actions>
-      </v-card>
-    </template>
-  </link-prevue>
-  </div>
-</div>
 
     <div class="actions" align="center">
      
@@ -246,5 +185,8 @@ import LinkPrevue from 'link-prevue'
 }
 .navbtn{
   text-decoration: none;
+}
+.actionbar {
+  color: red
 }
 </style>
